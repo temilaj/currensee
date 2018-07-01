@@ -29,10 +29,11 @@ function buildCurrencyList() {
 function convert(event) {
   event.preventDefault();
   const amount = document.querySelector('#amount');
-  const fromCurrency = fromCurrencyList.options[fromCurrencyList.selectedIndex].value;
-  const toCurrency = toCurrencyList.options[toCurrencyList.selectedIndex].value;
-  const forwardConversion = `${fromCurrency}_${toCurrency}`;
-  const reverseConversion = `${toCurrency}_${fromCurrency}`;
+  const fromCurrencyId = fromCurrencyList.options[fromCurrencyList.selectedIndex].value;
+  const fromCurrency = currencies.filter(currency => currency[0] === fromCurrencyId);
+  const toCurrencyId = toCurrencyList.options[toCurrencyList.selectedIndex].value;
+  const forwardConversion = `${fromCurrencyId}_${toCurrencyId}`;
+  const reverseConversion = `${toCurrencyId}_${fromCurrencyId}`;
   const url = `${BASE_URL}/convert?q=${forwardConversion},${reverseConversion}&compact=ultra`;
   fetch(url)
   .then(response => response.json())
