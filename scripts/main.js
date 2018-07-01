@@ -1,7 +1,10 @@
 
-const fromCurrency = document.querySelector('#from-currency');
-const toCurrency = document.querySelector('#to-currency');
-const BASE_URL = 'https://free.currencyconverterapi.com/api/v5'
+const fromCurrencyList = document.querySelector('#from-currency');
+const toCurrencyList = document.querySelector('#to-currency');
+const resultElement = document.querySelector('.card-title');
+document.forms.Currensee.addEventListener('submit', convert);
+
+const BASE_URL = 'https://free.currencyconverterapi.com/api/v5';
 let currencies = [];
 
 function buildCurrencyList() {
@@ -10,21 +13,36 @@ function buildCurrencyList() {
   .then(response => response.json())
   .then(data => {
     currencies = Object.entries(data.results);
-    console.log(currencies);
     let currencyString = '';
     const currencyOptions = currencies.map((currency) => {
-      const currencyOption = `<option value="${currency[1].id}">${currency[1].currencySymbol} - (${currency[1].currencyName})</option>`;
+      const currencyOption = `<option value="${currency[1].id}">${currency[1].currencyName} ${currency[1].currencySymbol ? '- ' + currency[1].currencySymbol : ''} </option>`;
       return currencyString.concat(currencyOption);
     });
-    fromCurrency.innerHTML = currencyOptions.join('');
-    toCurrency.innerHTML = currencyOptions.join('');
+    fromCurrencyList.innerHTML = currencyOptions.join('');
+    toCurrencyList.innerHTML = currencyOptions.join('');
+  })
+  .catch(function(error) {
+    console.error(error);
+  });
+}
+
+function convert(event) {
+  event.preventDefault();
+  const amount = document.querySelector('#amount');
+  const fromCurrency = fromCurrencyList.options[fromCurrencyList.selectedIndex].value;
+  const toCurrency = toCurrencyList.options[toCurrencyList.selectedIndex].value;
+  const forwardConversion = `${fromCurrency}_${toCurrency}`;
+  const reverseConversion = `${toCurrency}_${fromCurrency}`;
+  const url = `${BASE_URL}/convert?q=${forwardConversion},${reverseConversion}&compact=ultra`;
+  fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    const roundedResult = Math.round((amount.value * data[forwardConversion]) * 100) / 100;
+    resultElement.innerHTML = `<small class="text-muted">${amount.value}</small>  → ${roundedResult}`;
   })
   .catch(function(error) {
     console.log(error);
   });
-}
-
-function convert(amount, currencyFrom, currencyTo) {
+  
 
 }
-
