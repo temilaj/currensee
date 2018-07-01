@@ -10,6 +10,8 @@
   <title>Currensee</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles/main.css"></link>
+
 </head>
 
 <body>
@@ -20,11 +22,64 @@
     </nav>
   </div>
 
-  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Currensee</h1>
     <p class="lead">Your all in one currency converter</p>
   </div>
 
+  <div class="container">
+    <div class="card-deck mb-3 text-center">
+      <div class="card mb-4 box-shadow">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Convert</h4>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="input-group col-md-6 offset-md-3">
+              <input type="number" class="form-control" placeholder="Enter Value">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">convert</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 offset-md-3 mb-3">
+                <label for="from-currency">From</label>
+                <select class="custom-select d-block w-100" id="from-currency" required>
+                  <option value="">Choose...</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a currency.
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="to-currency">To</label>
+                <select class="custom-select d-block w-100" id="to-currency" required>
+                  <option value="">Choose...</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a currency.
+                </div>
+              </div>
+            </div>
+          </form>
+          <h1 class="card-title">
+            <small class="text-muted">$0</small>
+            → $0
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row">
+        <div class="col-12 col-md">
+          <small class="d-block mb-3 text-muted">&copy; 2018
+            <a href="https://temilajumoke.com" target="_blank">Temi Lajumoke</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -32,6 +87,7 @@
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
+  <script src="/scripts/main.js"></script>
 </body>
 
 </html>
