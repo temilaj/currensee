@@ -15,7 +15,7 @@ function buildCurrencyList() {
     currencies = Object.entries(data.results);
     let currencyString = '';
     const currencyOptions = currencies.map((currency) => {
-      const currencyOption = `<option value="${currency[1].id}">${currency[1].currencyName} ${currency[1].currencySymbol ? '- ' + currency[1].currencySymbol : ''} </option>`;
+      const currencyOption = `<option value="${currency[1].id}" data-currency-symbol="${currency[1].currencySymbol ? currency[1].currencySymbol : ''}">${currency[1].currencyName} ${currency[1].currencySymbol ? '- ' + currency[1].currencySymbol : ''} </option>`;
       return currencyString.concat(currencyOption);
     });
     fromCurrencyList.innerHTML = currencyOptions.join('');
@@ -29,9 +29,13 @@ function buildCurrencyList() {
 function convert(event) {
   event.preventDefault();
   const amount = document.querySelector('#amount');
-  const fromCurrencyId = fromCurrencyList.options[fromCurrencyList.selectedIndex].value;
-  const fromCurrency = currencies.filter(currency => currency[0] === fromCurrencyId);
-  const toCurrencyId = toCurrencyList.options[toCurrencyList.selectedIndex].value;
+  const fromCurrency = fromCurrencyList.options[fromCurrencyList.selectedIndex];
+  const fromCurrencyId = fromCurrency.value;
+  const fromCurrencySymbol = fromCurrency.dataset.currencySymbol;
+  
+  const toCurrency = toCurrencyList.options[toCurrencyList.selectedIndex];
+  const toCurrencyId = toCurrency.value;
+  const toCurrencySymbol = toCurrency.dataset.currencySymbol;
   const forwardConversion = `${fromCurrencyId}_${toCurrencyId}`;
   const reverseConversion = `${toCurrencyId}_${fromCurrencyId}`;
   const url = `${BASE_URL}/convert?q=${forwardConversion},${reverseConversion}&compact=ultra`;
@@ -39,7 +43,7 @@ function convert(event) {
   .then(response => response.json())
   .then(data => {
     const roundedResult = Math.round((amount.value * data[forwardConversion]) * 100) / 100;
-    resultElement.innerHTML = `<small class="text-muted">${amount.value}</small>  → ${roundedResult}`;
+    resultElement.innerHTML = `<small class="text-muted">${fromCurrencySymbol} ${amount.value}</small>  → ${toCurrencySymbol} ${roundedResult}`;
   })
   .catch(function(error) {
     console.log(error);
